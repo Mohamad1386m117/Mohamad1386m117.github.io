@@ -17,6 +17,7 @@
             flex-direction: column;
             z-index: 9999;
             color: #d4af37;
+            font-family: 'Arial', sans-serif;
         }
         #activate-audio {
             background: #8B0000;
@@ -26,51 +27,49 @@
             font-size: 18px;
             cursor: pointer;
             margin-top: 20px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- لایه فعال‌سازی صدا -->
     <div id="audio-permission">
-        <h2>برای تجربه کامل میدان نبرد</h2>
-        <p>لطفاً دکمه زیر را برای فعال‌سازی موسیقی کلیک کنید</p>
-        <button id="activate-audio">فعال‌سازی موسیقی نبرد</button>
-    </div>
-
-    <!-- محتوای اصلی سایت -->
-    <div class="warrior-container">
-        <!-- محتوای قبلی شما بدون تغییر -->
+        <h2>🔥 برای تجربه کامل میدان نبرد 🔥</h2>
+        <p>برای فعال‌سازی موسیقی حماسی، دکمه زیر را کلیک کنید</p>
+        <button id="activate-audio">فعال‌سازی صدا</button>
     </div>
 
     <script>
-        // راه‌حل تضمینی با استفاده از Howler.js
-        document.getElementById('activate-audio').addEventListener('click', function() {
-            // بارگذاری کتابخانه Howler.js
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js';
-            script.onload = function() {
-                // پخش آهنگ با Howler
-                const sound = new Howl({
-                    src: ['https://ememay.ir/wp-content/uploads/2024/04/Robert-L.-Euvino-A-Strong-Spice.mp3'],
-                    volume: 1.0,
-                    loop: true,
-                    onplayerror: function() {
-                        // اگر خطا داد، از روش جایگزین استفاده کن
-                        const audio = new Audio('https://ememay.ir/wp-content/uploads/2024/04/Robert-L.-Euvino-A-Strong-Spice.mp3');
-                        audio.volume = 1.0;
-                        audio.loop = true;
-                        audio.play().catch(e => {
-                            alert('لطفاً در مرورگر خود اجازه پخش صدا را فعال کنید');
-                        });
+        document.getElementById('activate-audio').addEventListener('click', async function() {
+            try {
+                // تست با دو منبع صدا (یکی از آنها باید کار کند)
+                const audioSources = [
+                    'https://ememay.ir/wp-content/uploads/2024/04/Robert-L.-Euvino-A-Strong-Spice.mp3',
+                    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+                ];
+                
+                let audio = new Audio();
+                audio.volume = 1.0;
+                audio.loop = true;
+                
+                // تست همه منابع صدا تا یکی کار کند
+                for (let source of audioSources) {
+                    try {
+                        audio.src = source;
+                        await audio.play();
+                        document.getElementById('audio-permission').style.display = 'none';
+                        console.log('صدا با موفقیت پخش شد');
+                        return;
+                    } catch (e) {
+                        console.log(`خطا در پخش ${source}:`, e);
+                        continue;
                     }
-                });
+                }
                 
-                sound.play();
-                
-                // مخفی کردن لایه فعال‌سازی
-                document.getElementById('audio-permission').style.display = 'none';
-            };
-            document.head.appendChild(script);
+                alert('پخش صدا ممکن نیست. لطفاً در مرورگر خود اجازه پخش صدا را فعال کنید');
+            } catch (error) {
+                console.error('خطای ناشناخته:', error);
+                alert('خطا در پخش صدا!');
+            }
         });
     </script>
 </body>
