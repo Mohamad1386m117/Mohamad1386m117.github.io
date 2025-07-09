@@ -210,6 +210,24 @@
     </style>
 </head>
 <body>
+    <!-- تگ صدا با پخش خودکار و حجم 100% -->
+    <audio id="bgMusic" autoplay loop>
+        <source src="https://ememay.ir/wp-content/uploads/2024/04/Robert-L.-Euvino-A-Strong-Spice.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bgMusic');
+            // تنظیم حجم صدا روی 100%
+            audio.volume = 1.0;
+            
+            // تلاش برای پخش خودکار
+            audio.play().catch(e => {
+                console.log('پخش خودکار صدا مسدود شد، کاربر باید با صفحه تعامل داشته باشد');
+            });
+        });
+    </script>
+
     <div class="warrior-container">
         <header>
             <div class="title">
@@ -271,7 +289,7 @@
         </div>
         
         <footer>
-            <p>© 2023 - شوالیه تاریکی</p>
+            <p>© 2023 - خلیفه</p>
             <p style="color: var(--sword-color); font-size: 0.9em;">"هر خط کد یک ضربه شمشیر است"</p>
         </footer>
     </div>
